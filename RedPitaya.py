@@ -132,5 +132,45 @@ for bit in bitstream:
 # Disconnect from Red Pitaya
 rp_s.close()
 
+#%%
 
+output_channel = 1  # Replace with the desired output channel (1 or 2)
+frequency = 1000  # Frequency of the sine wave in Hertz
+amplitude = 1.0  # Amplitude of the sine wave in Volts
+
+#rp_s.tx_txt(f"GEN:RST")
+
+rp_s.tx_txt(f"SOUR{output_channel}:FUNC SIN")
+rp_s.tx_txt(f"SOUR{output_channel}:FREQ:FIX {frequency}")
+rp_s.tx_txt(f"SOUR{output_channel}:VOLT {amplitude}")
+
+#Enable output
+rp_s.tx_txt(f"OUTPUT{output_channel}:STATE ON")
+rp_s.tx_txt('SOUR1:TRIG:INT')
+
+#%%
+
+output_channel = 1  # Replace with the desired output channel (1 or 2)
+frequency = 2000  # Frequency of the sine wave in Hertz
+amplitude = 1.0  # Amplitude of the sine wave in Volts
+
+# Connect to Red Pitaya
+rp = scpi.scpi(IP)
+
+# Configure the output channel
+rp.tx_txt(f"SOUR{output_channel}:FUNC SQU")
+rp.tx_txt(f"SOUR{output_channel}:FREQ:FIX {frequency}")
+rp.tx_txt(f"SOUR{output_channel}:VOLT {amplitude}")
+
+# Enable the output
+rp.tx_txt(f"OUTPUT{output_channel}:STATE ON")
+
+# Wait for some time (you can adjust this based on your needs)
+#time.sleep(25)
+
+# Disable the output
+#rp.tx_txt(f"OUTPUT{output_channel}:STATE OFF")
+
+# Disconnect from Red Pitaya
+#rp.close()
 
